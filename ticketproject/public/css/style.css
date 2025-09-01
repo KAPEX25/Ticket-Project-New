@@ -1,0 +1,92 @@
+:root{
+    --c1:#00423F;
+    --c2:#001D26;
+    --c3:#4D0000;
+  }
+body{
+    margin: 0px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: linear-gradient(120deg, var(--c1), var(--c2), var(--c3));
+    background-size: 200% 200%;
+    animation: move 12s ease-in-out infinite;
+    /* hafif cam efekti için */
+    color:#fff; display:grid; place-items:center; font:600 1.1rem/1.4 system-ui,Segoe UI,Roboto,Arial;
+}
+@keyframes move{
+    0%{background-position: 0% 50%}
+    50%{background-position: 100% 50%}
+    100%{background-position: 0% 50%}
+  }
+  @media (prefers-reduced-motion: reduce){
+    body{animation: none; background-size: cover;}
+  }
+.banner{
+    z-index: 999;
+    display:flex;
+    justify-content:center;
+    width:100%;
+    height:55px;
+    position:fixed;
+    background-color:#00000000;
+    top:10px;
+
+}
+#bannerdiv{
+    height: 55px;
+    width: 1000px;
+    display: flex;
+    position: fixed;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    backdrop-filter: blur(5px);
+    background-color: #00000017;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.container{
+    height: 500px;
+    width: 1000px;
+    display: flex;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    backdrop-filter: blur(5px);
+    background-color: #00000017;
+    align-items: center;
+    justify-content: center;
+}
+.container div{
+background-color:#00000000;
+}
+.welcomediv{
+    height: 95%;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.welcomediv p{
+    text-align: center;
+    font-size:56px;
+    color: #D3DAD9;
+    background-color:#00000000;
+}
+.buttondiv{
+    height: 40px;
+    width: 140px;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    backdrop-filter: blur(5px);
+    background-color: #ffffff12;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.buttondiv p{
+    text-align: center;
+    font-size:18px;
+    color: #D3DAD9;
+    background-color:#00000000;
+}
