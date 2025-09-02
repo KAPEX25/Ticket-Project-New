@@ -13,18 +13,20 @@
     
     <div style="" class="banner">
         <div id="bannerdiv">
-           <div class="buttondiv" href="{{view('pages.main')}}">
+            <a class="buttondiv" href="{{ route('mainwelcome') }}">
                 <p>Main</p>
-           </div> 
-           <div class="buttondiv">
+            </a> 
+           <a class="buttondiv" href="{{ route('filament.admin.pages.dashboard') }}">
                 <p>Dashboard</p>
-           </div> 
-           <div class="buttondiv">
+            </a>  
+            @if(auth()->check() == false)
+           <a class="buttondiv" href="{{ route('filament.admin.auth.login') }}">
                 <p>Login</p>
-           </div>
-           <div class="buttondiv">
+            </a> 
+           <a class="buttondiv" href="{{ route('register') }}">
                 <p>Register</p>
-           </div> 
+            </a>  
+            @endif
         </div>
     </div>
     <div style="display: flex;justify-content: center;height:100vh;align-items: center;">
