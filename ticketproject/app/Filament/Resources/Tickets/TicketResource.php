@@ -13,11 +13,16 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\HtmlString;
+use App\Models\Post;
+use Filament\Actions\Action;
 
 class TicketResource extends Resource
 {
@@ -146,20 +151,94 @@ class TicketResource extends Resource
             FileUpload::make('attachments')
             ->label('Attachments')
             ->directory('tickets-attachments') 
+            ->disk('public')
             ->visibility('public')
             ->multiple() 
             ->enableDownload() 
             ->enableOpen() 
-            ->preserveFilenames() 
-            ->reorderable(), 
+            ->storeFileNamesIn('attachment_file_names')
+            ->reorderable(),
+            Select::make('status')
+            ->label('Status')
+            ->placeholder('Select a status')
+            ->options([
+                'Open' => 'Open',
+                'In Progress' => 'In Progress',
+                'On Hold' => 'On Hold',
+                'Resolved' => 'Resolved',
+                'Closed' => 'Closed',
+            ])
+            ->visible(fn () => auth()->user()->hasRole('agent'))
+            ->default('Open'),
+
+             
             
     ]);
     }
 
     public static function table(Table $table): Table
     {
-        return TicketsTable::configure($table);
+        return TicketsTable::configure($table)
+        ->columns([
+            TextColumn::make('title')->label('Title'),
+            TextColumn::make('description')->label('Description'),
+            TextColumn::make('status')->label('Status'),
+            TextColumn::make('priority')->label('Priority'),
+            TextColumn::make('category')->label('Category'),
+            TextColumn::make('impact')->label('Impact'),
+            TextColumn::make('source')->label('Source'),
+            TextColumn::make('assignedUser.name')->label('Assigned User'),
+            TextColumn::make('createdBy.name')->label('Created by User'),
+            TextColumn::make('sla_due_date')->label('SLA Due Date'),
+            
+
+
+            TextColumn::make('attachments')
+            ->label('Attachments')
+            ->formatStateUsing(function ($state) {
+                if (empty($state)) {
+                    return 'No files';
+                }
+
+                if (is_string($state)) {
+                    $files = explode(',', $state);
+                    $files = array_filter(array_map('trim', $files));
+                }
+
+                $links = [];
+                foreach ($files as $file) {
+                    // Türkçe ve boşluk karakterlerini encode et
+                    $url = asset('storage/' . implode('/', array_map('rawurlencode', explode('/', $file))));
+                    $filename = basename($file);
+
+                    $links[] = '<a href="' . $url . '" target="_blank" download>Download File</a>';
+                }
+
+                return new HtmlString(implode('<br>', $links));
+            })
+            ->html(),
+
+            TextColumn::make('resolved_at')->label('Resolved Date'),
+            TextColumn::make('created_at')->label('Created Time'),
+            TextColumn::make('updated_at')->label('Updated Time'),
+
+        ])
+        ->filters([
+            
+        ]);
     }
+
+    public static function getEloquentQuery(): Builder
+{
+    $user = auth()->user();
+
+    if ($user->hasRole('admin') || $user->hasRole('agent')) {
+        return parent::getEloquentQuery(); // tüm ticketlar
+    }
+
+    // normal user sadece kendi ticketlarını görsün
+    return parent::getEloquentQuery()->where('created_by_user_id', $user->id);
+}
 
     public static function getRelations(): array
     {

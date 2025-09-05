@@ -60,7 +60,7 @@ class UserResource extends Resource
             TextColumn::make('email')->label('E-Mail'),
         ])
         ->filters([
-            // filtre eklemek istersen buraya
+            
         ]);
     }
 
