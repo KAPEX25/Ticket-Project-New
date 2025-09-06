@@ -60,41 +60,33 @@ Laravel 11 + Filament + Spatie Roles & Permissions + Sanctum tabanlı ITSM (Tick
 
 1. Login
     ```bash
-"
-    POST /api/login
+        POST /api/login
+        Content-Type: application/json
+
+        {
+        "email": "agent@example.com",
+        "password": "password"
+        }
+    response: token
+2. Ticket Listesi
+    ```bash
+    GET /api/tickets
+    Authorization: Bearer {token}
+3. Ticket Oluştur
+    ```bash
+    POST /api/tickets
+    Authorization: Bearer {token}
     Content-Type: application/json
 
     {
-    "email": "agent@example.com",
-    "password": "password"
+    "title": "Printer not working",
+    "description": "The printer is jammed.",
+    "priority": "High",
+    "category": "Printer / Scanner",
+    "impact": "Medium",
+    "source": "Web"
     }
-"
-response: token
-2. Ticket Listesi
-    ```bash
-"
-GET /api/tickets
-Authorization: Bearer {token}
-"
-3. Ticket Oluştur
-    ```bash
-"
-POST /api/tickets
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "title": "Printer not working",
-  "description": "The printer is jammed.",
-  "priority": "High",
-  "category": "Printer / Scanner",
-  "impact": "Medium",
-  "source": "Web"
-}
-"
 4. Ticket Çözümleme
     ```bash
-"
-POST /api/tickets/1/resolve
-Authorization: Bearer {token}
-"
+    POST /api/tickets/1/resolve
+    Authorization: Bearer {token}
