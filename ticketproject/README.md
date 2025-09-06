@@ -11,19 +11,25 @@ Laravel 11 + Filament + Spatie Roles & Permissions + Sanctum tabanlı ITSM (Tick
     git clone https://github.com/USERNAME/Ticket-Project.git
     cd Ticket-Project
 2. Paketleri yükle:
+    ```bash 
     composer install
     npm install && npm run build
 3. .env dosyasını ayarla:
+    ```bash
     DB_DATABASE=ticketproject
     DB_USERNAME=root
     DB_PASSWORD=
 4. Migration & seed çalıştır:
+    ```bash
     php artisan migrate --seed
 5. Uygulama anahtarını oluştur:
+    ```bash
     php artisan key:generate
 6. Storage link oluştur:
+    ```bash
     php artisan storage:link
 7. Server başlat:
+    ```bash
     php artisan serve
 
 ## Kullanıcı Rolleri
@@ -53,6 +59,7 @@ Laravel 11 + Filament + Spatie Roles & Permissions + Sanctum tabanlı ITSM (Tick
 ## API Kullanımı
 
 1. Login
+    ```bash
 "
     POST /api/login
     Content-Type: application/json
@@ -64,11 +71,13 @@ Laravel 11 + Filament + Spatie Roles & Permissions + Sanctum tabanlı ITSM (Tick
 "
 response: token
 2. Ticket Listesi
+    ```bash
 "
 GET /api/tickets
 Authorization: Bearer {token}
 "
 3. Ticket Oluştur
+    ```bash
 "
 POST /api/tickets
 Authorization: Bearer {token}
@@ -84,6 +93,7 @@ Content-Type: application/json
 }
 "
 4. Ticket Çözümleme
+    ```bash
 "
 POST /api/tickets/1/resolve
 Authorization: Bearer {token}
