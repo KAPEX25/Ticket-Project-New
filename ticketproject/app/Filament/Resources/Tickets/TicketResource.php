@@ -46,10 +46,10 @@ class TicketResource extends Resource
                 ->placeholder('Select a priority')
                 ->required()
                 ->options([
-                    'Critical' => 'Critical',
-                    'High' => 'High',
-                    'Medium' => 'Medium',
-                    'Low' => 'Low',
+                    'critical' => 'Critical',
+                    'high' => 'High',
+                    'medium' => 'Medium',
+                    'low' => 'Low',
                 ]),
             Textarea::make('description')
                 ->label('Description')
@@ -132,21 +132,21 @@ class TicketResource extends Resource
                 ],
             ]),
             Select::make('impact')
-                ->label('İmpact')
+                ->label('Impact')
                 ->placeholder('Select a impact')
                 ->options([
-                    'High' => 'High',
-                    'Medium' => 'Medium',
-                    'Low' => 'Low',
+                    'high' => 'High',
+                    'medium' => 'Medium',
+                    'low' => 'Low',
                 ]),
             Select::make('source')
                 ->label('Source')
                 ->placeholder('Select a source')
                 ->options([
-                    'Web' => 'Web',
-                    'E-Mail' => 'E-Mail',
-                    'Phone' => 'Phone',
-                    'Chat' => 'Chat',
+                    'web' => 'Web',
+                    'email' => 'E-Mail',
+                    'phone' => 'Phone',
+                    'chat' => 'Chat',
                 ]),
             FileUpload::make('attachments')
             ->label('Attachments')
@@ -162,11 +162,11 @@ class TicketResource extends Resource
             ->label('Status')
             ->placeholder('Select a status')
             ->options([
-                'Open' => 'Open',
-                'In Progress' => 'In Progress',
-                'On Hold' => 'On Hold',
-                'Resolved' => 'Resolved',
-                'Closed' => 'Closed',
+                'open' => 'Open',
+                'in_progress' => 'In Progress',
+                'on_hold' => 'On Hold',
+                'resolved' => 'Resolved',
+                'closed' => 'Closed',
             ])
             ->visible(fn () => auth()->user()->hasRole('agent'))
             ->default('Open'),
@@ -182,11 +182,51 @@ class TicketResource extends Resource
         ->columns([
             TextColumn::make('title')->label('Title'),
             TextColumn::make('description')->label('Description'),
-            TextColumn::make('status')->label('Status'),
-            TextColumn::make('priority')->label('Priority'),
+            TextColumn::make('status')
+            ->label('Status')
+            ->formatStateUsing(function ($state) {
+                return match($state) {
+                    'open' => 'Open',
+                    'in_progress' => 'In Progress',
+                    'on_hold' => 'On Hold',
+                    'resolved' => 'Resolved',
+                    'closed' => 'Closed',
+                    default => $state,
+                };
+            }),
+            TextColumn::make('priority')
+            ->label('Priority')
+            ->formatStateUsing(function ($state) {
+                return match($state) {
+                    'low' => 'Low',
+                    'medium' => 'Medium',
+                    'high' => 'High',
+                    'critical' => 'Critical',
+                    default => $state,
+                };
+            }),
             TextColumn::make('category')->label('Category'),
-            TextColumn::make('impact')->label('Impact'),
-            TextColumn::make('source')->label('Source'),
+            TextColumn::make('impact')
+            ->label('Impact')
+            ->formatStateUsing(function ($state) {
+                return match($state) {
+                    'low' => 'Low',
+                    'medium' => 'Medium',
+                    'high' => 'High',
+                    default => $state,
+                };
+            }),
+            TextColumn::make('source')
+            ->label('Source')
+            ->formatStateUsing(function ($state) {
+                return match($state) {
+                    'web' => 'Web',
+                    'email' => 'E-Mail',
+                    'phone' => 'Phone',
+                    'chat' => 'Chat',
+                    default => $state,
+                };
+            }),
             TextColumn::make('assignedUser.name')->label('Assigned User'),
             TextColumn::make('createdBy.name')->label('Created by User'),
             TextColumn::make('sla_due_date')->label('SLA Due Date'),

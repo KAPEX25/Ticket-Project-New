@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+        RoleSeeder::class,
+        UsersTableSeeder::class,
+        TicketsTableSeeder::class,
+        ]);
         // Rolleri oluştur
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $agentRole = Role::firstOrCreate(['name' => 'agent']);

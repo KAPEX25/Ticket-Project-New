@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\TicketController;
 
 Route::get('/', function () {
     return view('pages.welcometicket');
@@ -34,3 +35,10 @@ Route::post('/register', function(Request $request) {
 
     return redirect()->route('filament.admin.auth.login');
 });
+
+Route::get('/login', function () {
+    return redirect()->route('filament.admin.auth.login');
+})->name('login');
+
+
+
