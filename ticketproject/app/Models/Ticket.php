@@ -31,7 +31,7 @@ class Ticket extends Model
     {
         static::saving(function ($ticket) {
             if (auth()->check() && auth()->user()->hasRole('agent')) {
-                if ($ticket->status === 'Resolved' && is_null($ticket->resolved_at)) {
+                if ($ticket->status === 'resolved' && is_null($ticket->resolved_at)) {
                     $ticket->assigned_user_id = auth()->id();
                     $ticket->resolved_at = now();
                 }

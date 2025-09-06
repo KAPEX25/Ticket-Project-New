@@ -20,7 +20,7 @@ class TicketFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph,
-            'priority' => $this->faker->randomElement(['Critical', 'High', 'Medium', 'Low']),
+            'priority' => $this->faker->randomElement(['critical', 'high', 'medium', 'low']),
             'category' => $this->faker->randomElement([
                 'Computer (Laptop / Desktop)',
                 'Printer / Scanner',
@@ -29,8 +29,8 @@ class TicketFactory extends Factory
                 'Email',
                 'Security',
             ]),
-            'impact' => $this->faker->randomElement(['High', 'Medium', 'Low']),
-            'source' => $this->faker->randomElement(['Web', 'Email', 'Phone', 'Chat']),
+            'impact' => $this->faker->randomElement(['high', 'medium', 'low']),
+            'source' => $this->faker->randomElement(['web', 'email', 'phone', 'chat']),
             'status' => $status,
             'created_by_user_id' =>  $this->faker->numberBetween(1, 5), // user id’lerden biri
             'assigned_user_id' => $this->faker->optional()->numberBetween(2, 4), // agent id
